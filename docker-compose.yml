@@ -1,0 +1,49 @@
+version: '2'
+volumes:
+  data-db:
+    driver: "local"
+
+services:
+  db:
+    image: mysql:5.6
+    restart: always
+    volumes:
+      - 'data-db:/var/lib/mysql'
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "3306:3306"
+    networks:
+      - jenkinsnet
+
+  jenkins:
+    container_name: jenkins
+    build:
+      context: .
+      dockerfile: jenkins.dockerfile
+    restart: always
+    volumes:
+      - './jenkins_home:/var/jenkins_home'
+    ports:
+      - "8080:8080"
+    networks:
+      - jenkinsnet
+
+  target:
+    build:
+      context: .
+      dockerfile: target.dockerfile
+    volumes:
+      - './id_rsa.pub:/root/.ssh/authorized_keys'
+      # - './www:/usr/share/nginx/html'
+      # - './conf/nginx.conf:/etc/nginx/nginx.conf'
+    ports:
+      - "2222:22"
+      # - "8080:80"
+    networks:
+      - jenkinsnet
+
+
+networks:
+  jenkinsnet:
+    external: true
