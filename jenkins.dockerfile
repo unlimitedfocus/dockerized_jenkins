@@ -19,6 +19,12 @@ RUN apt-get update && \
 RUN pip install awscli
 
 ENV JENKINS_HOME /var/jenkins_home
+ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
+
+ENV JENKINS_USER admin
+ENV JENKINS_PASS admin
+COPY conf/default-user.groovy /usr/share/jenkins/ref/init.groovy.d/
+
 RUN usermod -aG docker jenkins
 
 USER jenkins

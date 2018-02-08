@@ -24,6 +24,11 @@ docker-compose build
 docker-compose up
 ```
 
+and open jenkins `http://localhost:8080`
+
+id: admin
+pw: admin
+
 ## ⚙️ Configuration
 
 - jenkins workspace: jenkins_home/

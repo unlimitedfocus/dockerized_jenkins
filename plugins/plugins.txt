@@ -1,2 +1,3 @@
 script-security:latest
 git:latest
+matrix-auth:latest
